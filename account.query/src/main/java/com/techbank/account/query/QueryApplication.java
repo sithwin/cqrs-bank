@@ -10,7 +10,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-//@ConfigurationProperties
 public class QueryApplication {
 
 	@Autowired

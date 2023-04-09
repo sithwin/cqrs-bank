@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-//@EnableFeignClients
-//@ConfigurationProperties
 class QueryApplicationTests {
 
 	@Test
