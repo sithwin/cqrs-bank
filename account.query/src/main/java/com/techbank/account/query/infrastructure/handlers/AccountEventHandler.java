@@ -6,6 +6,7 @@ import com.techbank.account.common.events.FundsDepositedEvent;
 import com.techbank.account.common.events.FundsWithdrawnEvent;
 import com.techbank.account.query.domain.AccountRepository;
 import com.techbank.account.query.domain.BankAccount;
+import com.techbank.account.query.infrastructure.clients.bankaccount.BankAccountClient;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,9 +14,11 @@ import java.util.Date;
 @Service
 public class AccountEventHandler implements EventHandler {
   private AccountRepository accountRepository;
+  private BankAccountClient bankAccountClient;
 
-  public AccountEventHandler(AccountRepository accountRepository) {
+  public AccountEventHandler(AccountRepository accountRepository, BankAccountClient bankAccountClient) {
     this.accountRepository = accountRepository;
+    this.bankAccountClient = bankAccountClient;
   }
 
   @Override
@@ -34,6 +37,7 @@ public class AccountEventHandler implements EventHandler {
   public void on(FundsDepositedEvent event) {
     var bankAccount = accountRepository.findById(event.getId());
     if(bankAccount.isEmpty()) {
+      bankAccountClient.restoreAccount(event.getId());
       return;
     }
     var currentBalance = bankAccount.get().getBalance();
@@ -47,6 +51,7 @@ public class AccountEventHandler implements EventHandler {
   public void on(FundsWithdrawnEvent event) {
     var bankAccount = accountRepository.findById(event.getId());
     if(bankAccount.isEmpty()) {
+      bankAccountClient.restoreAccount(event.getId());
       return;
     }
     var currentBalance = bankAccount.get().getBalance();
