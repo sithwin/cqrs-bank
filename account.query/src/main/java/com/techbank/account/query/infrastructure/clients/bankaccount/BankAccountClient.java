@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface BankAccountClient {
 
   @PostMapping("/{id}")
-  public ResponseEntity<BaseResponse> restoreAccount(@PathVariable(value = "id") String id);
+  ResponseEntity<BaseResponse> restoreAccount(@PathVariable(value = "id") String id);
 }
